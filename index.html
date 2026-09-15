@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OZASOFT — Software house, Cairo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Fonts load without blocking the page: it renders immediately with fallback fonts and swaps to
+     Unbounded / Host Grotesk when they arrive. A blocking <link> made the page hang ("loading forever")
+     on devices that couldn't reach Google Fonts. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Host+Grotesk:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Host+Grotesk:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Host+Grotesk:wght@400;500;600&display=swap"></noscript>
+<style>
+  /* Single deliberate look: alternating white / black / red sections, same in every theme. */
+  :root {
+    --paper: #F5F4F2;
+    --black: #121011;
+    --ink: #161213;
+    --red: #DC1E1E;
+    --red-dark: #3A1214;
+    --white: #FFFFFF;
+
+    --f-display: "Unbounded", "Helvetica Neue", Arial, sans-serif;
+    --f-body: "Host Grotesk", "Helvetica Neue", Arial, sans-serif;
+    --gutter: clamp(16px, 4vw, 64px);
+    --gap: clamp(16px, 2vw, 32px);
+    --sec: clamp(88px, 12vw, 168px);
+  }
+  .s-paper {
+    --bg: #F5F4F2; --fg: #161213; --fg-2: #6B6364; --fg-3: #A69E9F; --hair: #DCD7D5;
+    --em: #DC1E1E; --btn-bg: #161213; --btn-fg: #F5F4F2; --btn-hbg: #DC1E1E; --btn-hfg: #FFFFFF;
+  }
+  .s-black {
+    --bg: #121011; --fg: #F3EFEE; --fg-2: #9D9496; --fg-3: #5E5657; --hair: #2E2829;
+    --em: #E8302B; --btn-bg: #DC1E1E; --btn-fg: #FFFFFF; --btn-hbg: #F3EFEE; --btn-hfg: #121011;
+  }
+  .s-red {
+    --bg: #DC1E1E; --fg: #FFFFFF; --fg-2: rgba(255, 255, 255, 0.82); --fg-3: rgba(255, 255, 255, 0.55); --hair: rgba(255, 255, 255, 0.32);
+    --em: #161213; --btn-bg: #161213; --btn-fg: #FFFFFF; --btn-hbg: #FFFFFF; --btn-hfg: #161213;
+  }
+  .s-paper, .s-black, .s-red { background: var(--bg); color: var(--fg); }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  html { background: var(--black); }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { overflow-x: clip; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--em, var(--red)); outline-offset: 4px; }
+  img { max-width: 100%; }
+
+  .wrap { max-width: 1440px; margin-inline: auto; padding-inline: var(--gutter); position: relative; }
+  .g12 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+
+  .d { font-family: var(--f-display); font-weight: 400; letter-spacing: -0.045em; line-height: 1.02; }
+  .d em { font-style: normal; color: var(--em); }
+  h1, h2, h3, .fp .who b { text-transform: uppercase; }
+  h3, .fp .who b { letter-spacing: -0.02em !important; }
+  .label { font-size: 16px; font-weight: 500; color: var(--fg-2); }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); display: inline-block; box-shadow: 0 0 0 0 rgba(220, 30, 30, .6); animation: pulse 2.2s infinite; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 9px rgba(220, 30, 30, 0); } 100% { box-shadow: 0 0 0 0 rgba(220, 30, 30, 0); } }
+
+  .logo { display: block; }
+  .logo img { height: 100%; width: auto; display: block; }
+
+  .link-arrow { display: inline-flex; align-items: center; gap: 10px; font-weight: 500; text-decoration: none; }
+  .link-arrow .arr { transition: transform .25s ease; color: var(--em); }
+  .link-arrow:hover .arr { transform: translateX(5px); }
+  .link-arrow span:first-child { background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; padding-bottom: 2px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 14px;
+    background: var(--btn-bg); color: var(--btn-fg);
+    padding: 15px 22px;
+    font-weight: 500; font-size: 15px; text-decoration: none;
+    transition: background .2s ease, color .2s ease;
+  }
+  .btn .arr { transition: transform .2s ease; }
+  .btn:hover { background: var(--btn-hbg); color: var(--btn-hfg); }
+  .btn:hover .arr { transform: translateX(4px); }
+
+  /* ---------- Hero (black) ---------- */
+  .hero { position: relative; overflow: hidden; }
+  .nav { display: flex; align-items: center; gap: 40px; padding-block: 26px; position: relative; z-index: 3; }
+  .nav .logo { height: 40px; }
+  .nav ul { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; gap: 36px; font-size: 15px; font-weight: 500; }
+  .nav ul a { text-decoration: none; color: var(--fg-2); transition: color .15s ease; }
+  .nav ul a:hover { color: var(--fg); }
+  .nav .btn { padding: 11px 18px; font-size: 14px; }
+
+  .orbit {
+    position: absolute; z-index: 0;
+    width: min(62vw, 880px); aspect-ratio: 1;
+    right: calc(-1 * min(16vw, 230px)); top: clamp(40px, 6vw, 90px);
+    pointer-events: none;
+    transition: transform .9s cubic-bezier(.2, .7, .1, 1);
+  }
+  .orbit .ring { position: absolute; inset: 0; border-radius: 50%; border: clamp(22px, 4.4vw, 64px) solid var(--red-dark); }
+  .orbit .spin { position: absolute; inset: 0; animation: orbit 14s linear infinite; }
+  .orbit .sat {
+    position: absolute; left: 50%; top: 0;
+    width: clamp(22px, 4.4vw, 64px); aspect-ratio: 1; border-radius: 50%;
+    background: var(--red);
+    transform: translate(-50%, 0);
+    box-shadow: 0 0 40px 6px rgba(220, 30, 30, .55);
+  }
+  .orbit .arc {
+    position: absolute; inset: 0; border-radius: 50%;
+    border: clamp(22px, 4.4vw, 64px) solid var(--red);
+    opacity: .9;
+    mask: conic-gradient(from -60deg, transparent 0deg, #000 60deg, transparent 61deg);
+    -webkit-mask: conic-gradient(from -60deg, transparent 0deg, #000 60deg, transparent 61deg);
+  }
+  @keyframes orbit { to { transform: rotate(360deg); } }
+
+  .hero-body { position: relative; z-index: 2; padding-block: clamp(48px, 8vw, 120px) clamp(56px, 7vw, 104px); }
+  .hero .meta { display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; margin-bottom: clamp(28px, 4vw, 52px); }
+  .hero .avail { display: inline-flex; align-items: center; gap: 10px; }
+  .hero h1 {
+    margin: 0;
+    font-size: clamp(34px, 6.6vw, 98px);
+    font-weight: 600;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 .ln { display: block; animation: up .9s cubic-bezier(.2, .7, .1, 1) both; }
+  .hero h1 .ln + .ln { animation-delay: .12s; }
+  .rot { display: inline-block; color: var(--em); position: relative; }
+  .rot span { display: inline-block; }
+  .rot.out span { animation: rotOut .32s cubic-bezier(.7, 0, .8, .4) forwards; }
+  .rot.in span { animation: rotIn .5s cubic-bezier(.2, .7, .1, 1) both; }
+  .rot::after {
+    content: ""; position: absolute; left: 0.04em; right: 0.1em; bottom: -0.02em; height: 0.06em;
+    background: var(--em); transform-origin: left; animation: bar 2.6s cubic-bezier(.7, 0, .2, 1) infinite;
+  }
+  @keyframes rotOut { to { transform: translateY(-0.5em); opacity: 0; filter: blur(4px); } }
+  @keyframes rotIn { from { transform: translateY(0.5em); opacity: 0; filter: blur(4px); } to { transform: none; opacity: 1; filter: none; } }
+  @keyframes bar { 0% { transform: scaleX(0); } 45%, 80% { transform: scaleX(1); } 100% { transform: scaleX(1); opacity: 0; } }
+  @keyframes up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+  .hero-row { margin-top: clamp(48px, 7vw, 96px); align-items: start; row-gap: 40px; }
+  .hero-copy { grid-column: 1 / span 6; display: flex; flex-direction: column; gap: 32px; }
+  .hero-copy p { margin: 0; font-size: clamp(19px, 1.7vw, 24px); line-height: 1.45; max-width: 40ch; text-wrap: pretty; }
+  .hero-copy p b { font-weight: 500; color: var(--fg); }
+  .hero-copy p { color: var(--fg-2); }
+  .hero-copy .actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+
+  .clients { margin-top: clamp(64px, 8vw, 112px); display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: var(--gap); align-items: center; }
+  .clients ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: space-between; align-items: center; gap: 28px 48px; flex-wrap: wrap; }
+  .clients li { display: flex; align-items: center; }
+  /* Full-color client logos shown as white silhouettes on black; per-logo heights balance their different proportions */
+  .clients img { display: block; width: auto; max-width: none; filter: brightness(0) invert(1); opacity: .6; transition: opacity .25s ease; }
+  .clients li:hover img { opacity: 1; }
+  .cl-mosamimon { height: 38px; }
+  .cl-falak { height: 36px; }
+  .cl-hamel { height: 50px; }
+  .cl-rseen { height: 76px; margin-block: -14px; }
+  .cl-trends { height: 40px; }
+
+  .band { background: var(--red); color: var(--white); overflow: hidden; padding-block: clamp(14px, 1.6vw, 22px); position: relative; z-index: 2; }
+  .band-track { display: flex; width: max-content; animation: slide 40s linear infinite; }
+  .band-track span {
+    font-family: var(--f-display); font-weight: 500; letter-spacing: -0.03em;
+    font-size: clamp(22px, 2.6vw, 40px); white-space: nowrap;
+    display: flex; align-items: center; gap: 0.8em; padding-right: 0.8em;
+  }
+  .band-track i { width: 0.36em; height: 0.36em; border-radius: 50%; background: var(--ink); display: inline-block; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  /* ---------- Section heads ---------- */
+  .sec { padding-block: var(--sec); }
+  .sec-head { align-items: end; row-gap: 24px; margin-bottom: clamp(48px, 7vw, 96px); }
+  .sec-head h2 {
+    grid-column: 1 / span 7; margin: 0;
+    font-size: clamp(44px, 7vw, 108px); font-weight: 700;
+    text-transform: uppercase; letter-spacing: -0.025em; line-height: 0.92;
+    text-wrap: balance;
+  }
+  .sec-head h2 sup {
+    font-size: 0.24em; font-weight: 500; letter-spacing: -0.01em;
+    vertical-align: top; position: relative; top: 0.35em; margin-left: 0.25em;
+    color: var(--em);
+  }
+  .sec-head .desc { grid-column: 8 / span 5; display: flex; flex-direction: column; align-items: flex-start; gap: 20px; padding-bottom: 0.4em; }
+  .sec-head .desc p { margin: 0; font-size: clamp(18px, 1.5vw, 21px); line-height: 1.5; color: var(--fg-2); max-width: 40ch; text-wrap: pretty; }
+  .sec-head .desc p b { color: var(--fg); font-weight: 500; }
+
+  /* ---------- Work (paper) ---------- */
+  /* Zigzag project rows: image and text swap sides on every row */
+  .zlist { display: flex; flex-direction: column; gap: clamp(72px, 9vw, 136px); }
+  .zrow { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 28px; align-items: center; text-decoration: none; }
+  .z-img { grid-column: 1 / span 7; position: relative; aspect-ratio: 4 / 3; overflow: hidden; max-width: 100%; cursor: none; }
+  .z-txt { grid-column: 9 / span 4; display: flex; flex-direction: column; gap: 20px; }
+  .zrow.flip .z-img { grid-column: 6 / span 7; grid-row: 1; }
+  .zrow.flip .z-txt { grid-column: 1 / span 4; grid-row: 1; }
+
+  .z-top { display: flex; align-items: baseline; gap: 14px; font-size: 15px; color: var(--fg-2); }
+  .z-top b { font-family: var(--f-display); font-weight: 600; font-size: 15px; color: var(--em); font-variant-numeric: tabular-nums; }
+  .z-txt h3 { margin: 0; font-family: var(--f-display); font-weight: 600; font-size: clamp(28px, 3vw, 46px); line-height: 1.02; transition: color .2s ease; }
+  .zrow:hover .z-txt h3 { color: var(--em); }
+  .z-txt p { margin: 0; color: var(--fg-2); font-size: 17px; line-height: 1.55; max-width: 40ch; }
+  .facts { margin: 0; display: flex; flex-direction: column; }
+  .facts div { display: flex; justify-content: space-between; gap: 12px; padding-block: 10px; border-top: 1px solid var(--hair); font-size: 15px; }
+  .facts div:last-child { border-bottom: 1px solid var(--hair); }
+  .facts dt { color: var(--fg-2); }
+  .facts dd { margin: 0; text-align: right; font-weight: 500; }
+  .z-links { display: flex; flex-wrap: wrap; gap: 12px 28px; }
+  /* Website on its own line, store links together on the next */
+  .z-links--stack .z-break { flex-basis: 100%; height: 0; margin-top: -12px; }
+  .z-link { display: inline-flex; align-items: center; gap: 12px; font-weight: 600; font-size: 16px; text-decoration: none; }
+  .z-link .arr {
+    width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--fg);
+    display: grid; place-items: center;
+    transition: background .2s ease, color .2s ease, border-color .2s ease, transform .25s ease;
+  }
+  .z-link:hover .arr, .z-link:focus-visible .arr { background: var(--em); border-color: var(--em); color: #FFFFFF; transform: translate(2px, -2px); }
+  .z-link:hover { color: var(--em); }
+  .z-img { display: block; }
+
+  /* Project previews in the site's own palette: black / red / paper stages (like the founder cards),
+     one large flat logo each — white on black & red, ink on paper. No tiles, shadows or ghosts. */
+  .stage { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; background: var(--st-bg); color: var(--st-fg); }
+  .st-black { --st-bg: #121011; --st-fg: #FFFFFF; --st-chip: rgba(255, 255, 255, .5); }
+  .st-red { --st-bg: #DC1E1E; --st-fg: #FFFFFF; --st-chip: rgba(255, 255, 255, .6); }
+  .st-paper { --st-bg: #F5F4F2; --st-fg: #161213; --st-chip: rgba(22, 18, 19, .5); box-shadow: inset 0 0 0 2px #161213; }
+  .stage .lm { position: relative; z-index: 1; width: var(--l-w, 50%); height: auto; max-width: none; display: block; transition: transform .6s cubic-bezier(.2, .7, .1, 1); }
+  .st-black .lm, .st-red .lm { filter: brightness(0) invert(1); }
+  .st-paper .lm { filter: brightness(0); opacity: .92; }
+  .zrow:hover .stage .lm { transform: scale(1.04); }
+  .stage .cap { position: absolute; z-index: 2; left: 18px; top: 16px; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--st-fg); opacity: .72; }
+  .stage .plats { position: absolute; z-index: 2; left: 18px; bottom: 18px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .stage .plats span { font-size: 12px; font-weight: 500; color: var(--st-fg); border: 1px solid var(--st-chip); padding: 3px 10px; }
+
+  .lm-hamel { --l-w: 58%; }
+  .lm-mosamimon { --l-w: 32%; }
+  .lm-falak { --l-w: 50%; }
+  .lm-rseen { --l-w: 36%; }
+  .lm-trends { --l-w: 60%; }
+
+  .work-foot { margin-top: clamp(72px, 9vw, 120px); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--hair); padding-top: 24px; }
+  .work-foot p { margin: 0; color: var(--fg-2); font-size: 16px; }
+
+  .view-cursor {
+    position: fixed; left: 0; top: 0; z-index: 40;
+    width: 104px; height: 104px; border-radius: 50%;
+    background: var(--red); color: #FFFFFF;
+    display: grid; place-items: center;
+    font-family: var(--f-display); font-size: 14px; font-weight: 500; letter-spacing: -0.01em;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform .3s cubic-bezier(.2, .7, .1, 1);
+  }
+  .view-cursor.on { transform: translate(-50%, -50%) scale(1); }
+  /* On red previews the red circle would vanish — switch it to ink */
+  .view-cursor.ink { background: #161213; }
+
+  /* ---------- Numbers (red) ---------- */
+  .numbers { padding-block: clamp(64px, 8vw, 112px); }
+  .numbers { padding-block: var(--sec); }
+  .numbers dl { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+  .numbers .item { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 12px; border-top: 1px solid var(--hair); padding-top: 18px; }
+  .numbers dd { margin: 0; font-family: var(--f-display); font-weight: 300; font-size: clamp(48px, 6.4vw, 96px); letter-spacing: -0.06em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .numbers dd sup { font-size: 0.4em; color: var(--em); vertical-align: top; margin-left: 0.08em; letter-spacing: 0; }
+  .numbers dt { color: var(--fg-2); font-size: 15px; max-width: 22ch; }
+
+  /* ---------- Services (black) ---------- */
+  .services { row-gap: 56px; }
+  .svc { grid-column: span 4; display: flex; flex-direction: column; gap: 18px; padding-top: 22px; border-top: 1px solid var(--hair); transition: border-color .3s ease; }
+  .svc:hover { border-top-color: var(--em); }
+  .svc .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .svc .top span { font-size: 13px; color: var(--fg-3); font-variant-numeric: tabular-nums; }
+  .svc h3 { margin: 0; font-family: var(--f-display); font-weight: 600; font-size: clamp(24px, 2.4vw, 32px); letter-spacing: -0.035em; }
+  .svc p { margin: 0; color: var(--fg-2); max-width: 36ch; }
+  .svc ul { list-style: none; margin: 8px 0 0; padding: 0; }
+  .svc li { padding-block: 11px; border-top: 1px solid var(--hair); font-size: 15px; display: flex; justify-content: space-between; gap: 12px; }
+  .svc li:last-child { border-bottom: 1px solid var(--hair); }
+  .svc li span { color: var(--fg-3); }
+
+  /* ---------- Founders (paper) — vertical-role poster cards ---------- */
+  .trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
+  .fp {
+    position: relative; overflow: hidden;
+    aspect-ratio: 3 / 4.3; max-width: 100%;
+    display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: clamp(12px, 1.4vw, 20px);
+    padding: clamp(14px, 1.4vw, 20px);
+  }
+  .fp .word {
+    writing-mode: vertical-rl; transform: rotate(180deg);
+    font-family: var(--f-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em;
+    font-size: min(5.8vw, 88px); line-height: 0.78;
+    white-space: nowrap; align-self: stretch;
+    margin-left: -0.06em;
+  }
+  .fp .side { display: flex; flex-direction: column; justify-content: space-between; gap: 16px; min-width: 0; min-height: 0; }
+  /* Photo box keeps a portrait ratio (5:6, like the headshots) so photos aren't cropped into a zoomed look */
+  .fp .photo { flex: none; width: 100%; aspect-ratio: 5 / 6; max-height: 72%; align-self: flex-end; overflow: hidden; position: relative; }
+  .fp .photo img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: 50% 22%;
+    filter: grayscale(1) contrast(1.1);
+    transition: transform .9s cubic-bezier(.2, .7, .1, 1);
+  }
+  .fp:hover .photo img { transform: scale(1.04); }
+  .fp .who { text-align: right; }
+  .fp .who b { display: block; font-family: var(--f-display); font-weight: 600; font-size: clamp(17px, 1.5vw, 21px); letter-spacing: -0.03em; line-height: 1.2; }
+  .fp .who span { display: block; font-size: 14px; opacity: .8; margin-top: 2px; }
+  .fp ul { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; }
+  .fp li { font-size: 11px; font-weight: 500; letter-spacing: 0.04em; border: 1px solid currentColor; padding: 1px 7px; }
+  .fp1 { background: #DC1E1E; color: #FFFFFF; }
+  .fp2 { background: #F5F4F2; color: #161213; box-shadow: inset 0 0 0 2px #161213; }
+  .fp3 { background: #121011; color: #F3EFEE; }
+  .fp3 .word { color: #E8302B; }
+
+  /* ---------- Quote (red) ---------- */
+  /* Swiss line grid: faint vertical rules on the real 12-column grid, fading out at top and bottom */
+  .quote-sec { position: relative; overflow: hidden; }
+  .quote-sec > .wrap { z-index: 1; }
+  .q-geo {
+    position: absolute; inset: 0; pointer-events: none;
+    mask: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+    -webkit-mask: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+  }
+  .q-grid { height: 100%; }
+  .q-grid span { border-left: 1px solid rgba(255, 255, 255, .16); }
+  .q-grid span:last-child { border-right: 1px solid rgba(255, 255, 255, .16); }
+  .quote blockquote { grid-column: 1 / span 11; margin: 0; padding-left: 0.6em; }
+  .quote blockquote p { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(28px, 3.6vw, 54px); line-height: 1.18; letter-spacing: -0.04em; text-wrap: balance; }
+  .quote blockquote p::before { content: "“"; margin-left: -0.55em; display: inline-block; width: 0.55em; color: var(--em); }
+  .quote blockquote p::after { content: "”"; color: var(--em); }
+  .quote blockquote p em { font-style: normal; color: var(--em); }
+  .quote .cite { margin-top: 36px; display: flex; gap: 16px; align-items: center; font-size: 15px; flex-wrap: wrap; }
+  .quote .cite b { font-weight: 600; }
+  .quote .cite span { color: var(--fg-2); }
+
+  /* ---------- Process (paper) ---------- */
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+  .steps li { display: flex; flex-direction: column; gap: 14px; padding-top: 22px; border-top: 1px solid var(--fg); }
+  .steps .n { font-family: var(--f-display); font-weight: 300; font-size: clamp(44px, 5vw, 72px); letter-spacing: -0.06em; line-height: 1; color: var(--fg-3); }
+  .steps h3 { margin: 0; font-family: var(--f-display); font-weight: 600; font-size: clamp(22px, 2vw, 28px); letter-spacing: -0.03em; }
+  .steps p { margin: 0; color: var(--fg-2); font-size: 16px; max-width: 28ch; }
+  .steps li.run { border-top: 3px solid var(--red); padding-top: 20px; }
+  .steps li.run .n, .steps li.run h3 { color: var(--red); }
+
+  /* ---------- Contact (black) ---------- */
+  .contact { padding-block: var(--sec) 0; }
+  .contact h2 { margin: 0; font-size: clamp(36px, 7vw, 108px); font-weight: 600; letter-spacing: -0.02em; line-height: 0.98; }
+  .contact-lead { margin: clamp(24px, 3vw, 36px) 0 0; font-size: clamp(18px, 1.6vw, 22px); line-height: 1.45; color: var(--fg-2); max-width: 44ch; text-wrap: pretty; }
+  .contact-row { margin-top: clamp(56px, 7vw, 104px); row-gap: 40px; align-items: end; }
+  .contact .mail { grid-column: 1 / span 7; font-family: var(--f-display); font-weight: 300; font-size: clamp(22px, 3vw, 44px); letter-spacing: -0.04em; text-decoration: none; display: inline-flex; gap: 0.4em; align-items: baseline; justify-self: start; }
+  .contact .mail .arr { color: var(--em); transition: transform .25s ease; }
+  .contact .mail:hover .arr { transform: translateX(6px); }
+  .contact .mail span:first-child { background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; padding-bottom: 4px; }
+  .contact-cta { grid-column: 9 / span 4; justify-self: end; }
+  .info { margin-top: clamp(72px, 9vw, 128px); padding-top: 32px; border-top: 1px solid var(--hair); row-gap: 28px; }
+  .info > div { grid-column: span 3; display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
+  .info .k { font-size: 15px; font-weight: 500; color: var(--fg-2); }
+  .info a { text-decoration: none; }
+  .info a:hover { color: var(--em); }
+  .end { padding-block: 28px 36px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--hair); margin-top: 56px; }
+  .end .logo { height: 40px; }
+  .end small { color: var(--fg-2); font-size: 13px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+  @media (max-width: 1000px) {
+    .nav ul { display: none; }
+    .nav .btn { margin-left: auto; }
+    .orbit { width: 80vw; right: -34vw; top: 120px; }
+    .hero-copy { grid-column: 1 / -1; }
+    .clients { grid-template-columns: 1fr; }
+    .clients ul { justify-content: flex-start; }
+    .cl-mosamimon, .cl-falak { height: 30px; }
+    .cl-hamel { height: 40px; }
+    .cl-rseen { height: 62px; margin-block: -12px; }
+    .cl-trends { height: 32px; }
+    .sec-head h2, .sec-head .desc { grid-column: 1 / -1; }
+    .z-img, .zrow.flip .z-img { grid-column: 1 / -1; grid-row: 1; cursor: pointer; }
+    .z-txt, .zrow.flip .z-txt { grid-column: 1 / span 9; grid-row: 2; }
+    .numbers dl { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 40px; }
+    .svc { grid-column: 1 / -1; }
+    .trio { grid-template-columns: 1fr; }
+    .fp { aspect-ratio: auto; height: 600px; }
+    .fp .photo { width: auto; height: 68%; max-height: none; }
+    .fp .word { font-size: 90px; }
+    .quote .label, .quote blockquote { grid-column: 1 / -1; }
+    .quote blockquote { padding-left: 0.55em; }
+    .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 44px; }
+    .contact .mail, .contact-cta { grid-column: 1 / -1; justify-self: start; }
+    .info > div { grid-column: span 6; }
+  }
+  @media (max-width: 620px) {
+    .z-txt, .zrow.flip .z-txt { grid-column: 1 / -1; }
+    .sec-head h2 { grid-column: 1 / -1; }
+    .fp { height: 540px; }
+    .fp .word { font-size: 76px; }
+    .steps { grid-template-columns: 1fr; }
+    .info > div { grid-column: 1 / -1; }
+    .nav .btn { padding: 10px 14px; }
+    .band-track span { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<main>
+  <!-- HERO · black -->
+  <section class="hero s-black">
+    <div class="orbit js-orbit" aria-hidden="true">
+      <div class="ring"></div>
+      <div class="spin"><div class="arc"></div><div class="sat"></div></div>
+    </div>
+
+    <div class="wrap">
+      <header class="nav">
+        <a class="logo" href="#" aria-label="OZASOFT home"><img src="assets/oza-logo-light.png" alt="OZASOFT"></a>
+        <ul>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#studio">Studio</a></li>
+          <li><a href="#process">Process</a></li>
+        </ul>
+        <a class="btn" href="#contact">Start a project <span class="arr">→</span></a>
+      </header>
+
+      <div class="hero-body">
+        <h1 class="d">
+          <span class="ln">Software</span>
+          <span class="ln">built to <span class="rot js-rot" aria-live="off"><span>ship.</span></span></span>
+        </h1>
+
+        <div class="g12 hero-row">
+          <div class="hero-copy">
+            <p><b>OZASOFT is a software house founded by three software engineers.</b> We design, build and run digital products — and stay with them long after launch.</p>
+            <div class="actions">
+              <a class="btn" href="#work">See our work <span class="arr">→</span></a>
+              <a class="link-arrow" href="#studio"><span>Meet the founders</span><span class="arr">→</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="clients">
+          <span class="label">Trusted by</span>
+          <ul>
+            <li><img class="cl-mosamimon" src="assets/Mosamimon-logo.png" alt="Mosamimon"></li>
+            <li><img class="cl-falak" src="assets/Falak-logo.png" alt="Falak"></li>
+            <li><img class="cl-hamel" src="assets/Hamel-logo.png" alt="Hamel Al Mesk"></li>
+            <li><img class="cl-rseen" src="assets/Rseen-logo.png" alt="Rseen"></li>
+            <li><img class="cl-trends" src="assets/image.webp" alt="Trends Research &amp; Advisory"></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="band" aria-label="Cloud and DevOps, Mobile, Web — made in Cairo">
+      <div class="band-track" aria-hidden="true">
+        <span>Cloud &amp; DevOps <i></i></span><span>Mobile apps <i></i></span><span>Web platforms <i></i></span><span>Made in Cairo <i></i></span>
+        <span>Cloud &amp; DevOps <i></i></span><span>Mobile apps <i></i></span><span>Web platforms <i></i></span><span>Made in Cairo <i></i></span>
+        <span>Cloud &amp; DevOps <i></i></span><span>Mobile apps <i></i></span><span>Web platforms <i></i></span><span>Made in Cairo <i></i></span>
+        <span>Cloud &amp; DevOps <i></i></span><span>Mobile apps <i></i></span><span>Web platforms <i></i></span><span>Made in Cairo <i></i></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK · paper -->
+  <section class="sec s-paper" id="work">
+    <div class="wrap">
+      <div class="g12 sec-head">
+        <h2 class="d">Projects<sup>(05)</sup></h2>
+        <div class="desc">
+          <p><b>Products we've designed, built and put into production</b> — from mobile apps and marketplaces to an AI chatbot.</p>
+        </div>
+      </div>
+
+      <div class="zlist">
+        <article class="zrow">
+          <a class="z-img js-view" href="https://apps.apple.com/us/app/hamel-al-mesk-nurseries/id1660024989" target="_blank" rel="noopener" aria-label="Hamel Al Mesk on the App Store"><div class="stage st-black"><span class="cap">Hamel Al Mesk</span><img class="lm lm-hamel" src="assets/Hamel-logo.png" alt=""><div class="plats"><span>iOS</span><span>Android</span></div></div></a>
+          <div class="z-txt">
+            <div class="z-top"><b>01</b><span>Education · Mobile app</span></div>
+            <h3>Hamel Al Mesk</h3>
+            <p>A nursery management app that brings parents, teachers and administrators together — enrolment and subscription payments, attendance, grades and class schedules in one place.</p>
+            <dl class="facts">
+              <div><dt>Platform</dt><dd>iOS · Android</dd></div>
+              <div><dt>Users</dt><dd>Parents · Teachers · Admins</dd></div>
+              <div><dt>Languages</dt><dd>Arabic · English</dd></div>
+            </dl>
+            <div class="z-links">
+              <a class="z-link" href="https://apps.apple.com/us/app/hamel-al-mesk-nurseries/id1660024989" target="_blank" rel="noopener">App Store <span class="arr">↗</span></a>
+              <a class="z-link" href="https://play.google.com/store/apps/details?id=com.roqay.hamelalmesk&amp;hl=en_US" target="_blank" rel="noopener">Google Play <span class="arr">↗</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="zrow flip">
+          <a class="z-img js-view" href="https://mosamimon.com/" target="_blank" rel="noopener" aria-label="Visit mosamimon.com"><div class="stage st-red"><span class="cap">mosamimon.com</span><img class="lm lm-mosamimon" src="assets/Mosamimon-mark-white.png" alt=""><div class="plats"><span>Web</span><span>iOS</span><span>Android</span></div></div></a>
+          <div class="z-txt">
+            <div class="z-top"><b>02</b><span>Interior design · Web + mobile</span></div>
+            <h3>Mosamimon</h3>
+            <p>A marketplace where clients commission interior and architectural designs from vetted designers — with staged payments, shop drawings and support through to execution.</p>
+            <dl class="facts">
+              <div><dt>Platform</dt><dd>Web · iOS · Android</dd></div>
+              <div><dt>Portals</dt><dd>Client · Designer · Admin</dd></div>
+              <div><dt>Languages</dt><dd>Arabic · English</dd></div>
+            </dl>
+            <div class="z-links z-links--stack">
+              <a class="z-link" href="https://mosamimon.com/" target="_blank" rel="noopener">mosamimon.com <span class="arr">↗</span></a>
+              <span class="z-break" aria-hidden="true"></span>
+              <a class="z-link" href="https://apps.apple.com/us/app/%D9%85%D8%B5%D9%85%D9%85%D9%88%D9%86/id6756515100" target="_blank" rel="noopener">App Store <span class="arr">↗</span></a>
+              <a class="z-link" href="https://play.google.com/store/apps/details?id=com.ozasoft.mosamimon.app&amp;hl=en_US" target="_blank" rel="noopener">Google Play <span class="arr">↗</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="zrow">
+          <a class="z-img js-view" href="https://www.falakcargo.com/" target="_blank" rel="noopener" aria-label="Visit falakcargo.com"><div class="stage st-paper"><span class="cap">falakcargo.com</span><img class="lm lm-falak" src="assets/Falak-logo.png" alt=""><div class="plats"><span>Web</span></div></div></a>
+          <div class="z-txt">
+            <div class="z-top"><b>03</b><span>Logistics · Website</span></div>
+            <h3>Falak Cargo</h3>
+            <p>The website for a Riyadh-based international shipping company — air and sea freight, vehicle shipping and customs clearance, with shipment tracking for customers.</p>
+            <dl class="facts">
+              <div><dt>Platform</dt><dd>Web</dd></div>
+              <div><dt>Market</dt><dd>Saudi Arabia</dd></div>
+              <div><dt>Language</dt><dd>Arabic</dd></div>
+            </dl>
+            <div class="z-links">
+              <a class="z-link" href="https://www.falakcargo.com/" target="_blank" rel="noopener">falakcargo.com <span class="arr">↗</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="zrow flip">
+          <a class="z-img js-view" href="https://rseen.net/en" target="_blank" rel="noopener" aria-label="Visit rseen.net"><div class="stage st-black"><span class="cap">rseen.net</span><img class="lm lm-rseen" src="assets/Rseen-logo.png" alt=""><div class="plats"><span>Web</span><span>iOS</span><span>Android</span></div></div></a>
+          <div class="z-txt">
+            <div class="z-top"><b>04</b><span>Construction &amp; design · Web + mobile</span></div>
+            <h3>Rseen</h3>
+            <p>A platform that connects homeowners with engineering offices, contractors and interior designers — taking home projects from design to execution, starting with a free quote.</p>
+            <dl class="facts">
+              <div><dt>Platform</dt><dd>Web · iOS · Android</dd></div>
+              <div><dt>Partners</dt><dd>Engineers · Contractors · Designers</dd></div>
+              <div><dt>Languages</dt><dd>Arabic · English</dd></div>
+            </dl>
+            <div class="z-links z-links--stack">
+              <a class="z-link" href="https://rseen.net/en" target="_blank" rel="noopener">rseen.net <span class="arr">↗</span></a>
+              <span class="z-break" aria-hidden="true"></span>
+              <a class="z-link" href="https://apps.apple.com/gr/app/%D8%B1%D8%B5%D9%8A%D9%86-rseen/id6739260369" target="_blank" rel="noopener">App Store <span class="arr">↗</span></a>
+              <a class="z-link" href="https://play.google.com/store/apps/details?id=com.linkdevelopment.raseen&amp;hl=en_US" target="_blank" rel="noopener">Google Play <span class="arr">↗</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="zrow">
+          <a class="z-img js-view" href="https://trends-poc.netlify.app/ar" target="_blank" rel="noopener" aria-label="Open the Trends AI chatbot prototype"><div class="stage st-red"><span class="cap">Trends AI assistant</span><img class="lm lm-trends" src="assets/image.webp" alt=""><div class="plats"><span>Web</span><span>AI chatbot</span></div></div></a>
+          <div class="z-txt">
+            <div class="z-top"><b>05</b><span>Research &amp; advisory · AI</span></div>
+            <h3>Trends AI Chatbot</h3>
+            <p>An AI chatbot proof of concept for Trends Research &amp; Advisory, built into an Arabic-first version of their website so visitors can explore the centre's work by conversation.</p>
+            <dl class="facts">
+              <div><dt>Platform</dt><dd>Web · AI chatbot</dd></div>
+              <div><dt>Stage</dt><dd>Proof of concept</dd></div>
+              <div><dt>Language</dt><dd>Arabic</dd></div>
+            </dl>
+            <div class="z-links">
+              <a class="z-link" href="https://trends-poc.netlify.app/ar" target="_blank" rel="noopener">View the prototype <span class="arr">↗</span></a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="work-foot">
+        <p>A selection of recent work — the full archive has more.</p>
+        <a class="link-arrow" href="#work"><span>See all projects</span><span class="arr">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NUMBERS · red -->
+  <section class="numbers s-red">
+    <div class="wrap">
+      <div class="g12 sec-head">
+        <h2 class="d">A team that <em>scales</em></h2>
+        <div class="desc">
+          <p><b>Founders lead every project.</b> We bring in designers, QA and extra engineers as the work demands — so you get the team size your product needs.</p>
+        </div>
+      </div>
+      <dl>
+        <div class="item"><dt>Products delivered across web, mobile and AI</dt><dd>10</dd></div>
+        <div class="item"><dt>Clients served</dt><dd>5</dd></div>
+        <div class="item"><dt>Combined years of engineering</dt><dd>6<sup>+</sup></dd></div>
+        <div class="item"><dt>Disciplines under one roof</dt><dd>3<sup>+</sup></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- SERVICES · black -->
+  <section class="sec s-black" id="services">
+    <div class="wrap">
+      <div class="g12 sec-head">
+        <h2 class="d">Services<sup>(03)</sup></h2>
+        <div class="desc">
+          <p><b>One team for the whole product</b> — from the cloud it runs on to the screen in your users' hands.</p>
+        </div>
+      </div>
+      <div class="g12 services">
+        <div class="svc">
+          <div class="top"><h3>Cloud &amp; DevOps</h3><span>01</span></div>
+          <p>Infrastructure that stays up, scales when you grow and doesn't surprise you on the invoice.</p>
+          <ul><li>Cloud architecture <span>AWS · GCP</span></li><li>CI/CD pipelines <span>GitHub Actions</span></li><li>Containers <span>Kubernetes</span></li><li>Monitoring &amp; alerts <span>Grafana</span></li></ul>
+        </div>
+        <div class="svc">
+          <div class="top"><h3>Mobile</h3><span>02</span></div>
+          <p>Native-quality apps for iOS and Android, from first prototype to store release and updates.</p>
+          <ul><li>Cross-platform apps <span>Flutter</span></li><li>Native modules <span>Swift · Kotlin</span></li><li>Store publishing <span>App Store · Play</span></li><li>Offline &amp; sync <span>—</span></li></ul>
+        </div>
+        <div class="svc">
+          <div class="top"><h3>Web</h3><span>03</span></div>
+          <p>Fast web platforms, dashboards and the APIs behind your apps, built to be maintained.</p>
+          <ul><li>Web applications <span>React · Next.js</span></li><li>APIs &amp; back ends <span>Node</span></li><li>Admin dashboards <span>—</span></li><li>Databases <span>PostgreSQL</span></li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDERS · paper -->
+  <section class="sec s-paper" id="studio">
+    <div class="wrap">
+      <div class="g12 sec-head">
+        <h2 class="d"><em>3</em> founders</h2>
+        <div class="desc">
+          <p><b>Each founder leads one discipline.</b> You work directly with the engineers who build your product — no account managers in between.</p>
+          <a class="link-arrow" href="#studio"><span>About the studio</span><span class="arr">→</span></a>
+        </div>
+      </div>
+      <div class="trio">
+        <article class="fp fp1">
+          <div class="word">DevOps</div>
+          <div class="side">
+            <div class="photo"><img src="assets/Omar%20Zakaria%20DevOps-800.jpg" alt="Omar Zakaria, co-founder and DevOps engineer"></div>
+            <div class="who"><b>Omar Zakaria</b><span>Co-founder · DevOps Engineer</span>
+              <ul><li>Kubernetes</li><li>Terraform</li><li>AWS</li><li>CI/CD</li></ul></div>
+          </div>
+        </article>
+        <article class="fp fp2">
+          <div class="word">Mobile</div>
+          <div class="side">
+            <div class="photo"><img src="assets/Mo2.jpg" alt="Mohamed Osama, co-founder and mobile developer"></div>
+            <div class="who"><b>Mohamed Osama</b><span>Co-founder · Mobile Developer</span>
+              <ul><li>Flutter</li><li>Swift</li><li>Kotlin</li></ul></div>
+          </div>
+        </article>
+        <article class="fp fp3">
+          <div class="word">Web</div>
+          <div class="side">
+            <div class="photo"><img src="assets/Abdelrahman%20-%20Web%20Developer.jpeg" alt="Abdelrahman, co-founder and web developer"></div>
+            <div class="who"><b>Abdelrahman</b><span>Co-founder · Web Developer</span>
+              <ul><li>React</li><li>Next.js</li><li>Node</li></ul></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE · red -->
+  <section class="sec s-red quote-sec">
+    <div class="q-geo" aria-hidden="true">
+      <div class="wrap g12 q-grid"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+    <div class="wrap">
+      <div class="g12 sec-head">
+        <h2 class="d">What <em>clients</em> say</h2>
+      </div>
+    </div>
+    <div class="wrap g12 quote">
+      <blockquote>
+        <p>OZASOFT gave Falak Cargo a website that looks like no one else's in our industry — <em>clean, unique and exactly what we imagined.</em> They were always sharp on time and genuinely cooperative from the first day to launch.</p>
+        <div class="cite"><b>Nuria</b><span>Falak Cargo</span></div>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- PROCESS · paper -->
+  <section class="sec s-paper" id="process">
+    <div class="wrap">
+      <div class="g12 sec-head">
+        <h2 class="d">Process<sup>(04)</sup></h2>
+        <div class="desc">
+          <p><b>Clear steps and weekly releases</b> — and we stay on to run your product after launch.</p>
+        </div>
+      </div>
+      <ol class="steps">
+        <li><span class="n">01</span><h3>Discover</h3><p>We agree on scope, constraints and a fixed first milestone.</p></li>
+        <li><span class="n">02</span><h3>Build</h3><p>Weekly releases you can click and test, not status reports.</p></li>
+        <li><span class="n">03</span><h3>Ship</h3><p>App stores, domains, monitoring and handover documentation.</p></li>
+        <li class="run"><span class="n">04</span><h3>Run</h3><p>We stay on to operate it: uptime, updates and scaling.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- CONTACT · black -->
+  <footer class="s-black" id="contact">
+    <div class="wrap contact">
+      <h2 class="d"><span style="display:block;">Got an idea?</span><em style="display:block;">Let's ship it.</em></h2>
+      <p class="contact-lead">Tell us what you're building — web, mobile, cloud or AI. We'll help you shape it, build it and keep it running.</p>
+      <div class="g12 contact-row">
+        <a class="mail" href="mailto:ozasoft.eg@gmail.com"><span>ozasoft.eg@gmail.com</span><span class="arr">→</span></a>
+        <div class="contact-cta"><a class="btn" href="tel:+201222832602">Call us <span class="arr">→</span></a></div>
+      </div>
+      <div class="g12 info">
+        <div><span class="k">Phone</span><span><a href="tel:+201222832602">+20 12 22832602</a></span></div>
+        <div><span class="k">Office</span><span>Cairo, Egypt</span></div>
+        <div><span class="k">Local time</span><span><span class="js-clock">--:--</span> Cairo<br>Sunday – Thursday</span></div>
+        <div><span class="k">Follow</span><span><a href="https://www.linkedin.com/company/ozasoft" target="_blank" rel="noopener">LinkedIn ↗</a> · <a href="https://github.com/OZAsoft-eg/" target="_blank" rel="noopener">GitHub ↗</a></span></div>
+      </div>
+      <div class="end">
+        <span class="logo"><img src="assets/oza-logo-light.png" alt="OZASOFT"></span>
+        <small>© 2026 OZASOFT. All rights reserved.</small>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<div class="view-cursor js-cursor" aria-hidden="true">View →</div>
+
+<script>
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    // Cairo clock
+    var fmt = null;
+    try { fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Cairo', hour: '2-digit', minute: '2-digit', hour12: false }); } catch (e) {}
+    function tick() { if (!fmt) return; var t = fmt.format(new Date()); document.querySelectorAll('.js-clock').forEach(function (el) { el.textContent = t; }); }
+    tick(); setInterval(tick, 20000);
+
+    // Rotating headline word
+    var rot = document.querySelector('.js-rot');
+    var words = ['ship.', 'scale.', 'last.', 'grow.'];
+    var i = 0;
+    if (rot && !reduce) {
+      setInterval(function () {
+        rot.classList.remove('in'); rot.classList.add('out');
+        setTimeout(function () {
+          i = (i + 1) % words.length;
+          rot.firstElementChild.textContent = words[i];
+          rot.classList.remove('out'); void rot.offsetWidth; rot.classList.add('in');
+        }, 320);
+      }, 2600);
+    }
+
+    // Orbit follows the cursor a little
+    var orbit = document.querySelector('.js-orbit');
+    var hero = document.querySelector('.hero');
+    if (orbit && fine && !reduce) {
+      hero.addEventListener('mousemove', function (e) {
+        var r = hero.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        orbit.style.transform = 'translate(' + (x * 48) + 'px,' + (y * 36) + 'px)';
+      });
+      hero.addEventListener('mouseleave', function () { orbit.style.transform = ''; });
+    }
+
+    // "View" cursor over project images
+    var cur = document.querySelector('.js-cursor');
+    if (cur && fine) {
+      var tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+      function loop() {
+        cx += (tx - cx) * 0.22; cy += (ty - cy) * 0.22;
+        cur.style.left = cx + 'px'; cur.style.top = cy + 'px';
+        raf = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.5 ? requestAnimationFrame(loop) : null;
+      }
+      document.querySelectorAll('.js-view').forEach(function (el) {
+        el.addEventListener('mouseenter', function (e) { tx = cx = e.clientX; ty = cy = e.clientY; cur.style.left = cx + 'px'; cur.style.top = cy + 'px'; cur.classList.toggle('ink', !!el.querySelector('.st-red')); cur.classList.add('on'); });
+        el.addEventListener('mouseleave', function () { cur.classList.remove('on'); });
+        el.addEventListener('mousemove', function (e) { tx = e.clientX; ty = e.clientY; if (!raf) raf = requestAnimationFrame(loop); });
+      });
+    }
+  })();
+</script>
+</body>
+</html>
