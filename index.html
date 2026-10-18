@@ -239,8 +239,12 @@
   .st-paper .lm { filter: brightness(0); opacity: .92; }
   .zrow:hover .stage .lm { transform: scale(1.04); }
   .stage .cap { position: absolute; z-index: 2; left: 18px; top: 16px; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--st-fg); opacity: .72; }
-  .stage .plats { position: absolute; z-index: 2; left: 18px; bottom: 18px; display: flex; flex-wrap: wrap; gap: 6px; }
-  .stage .plats span { font-size: 12px; font-weight: 500; color: var(--st-fg); border: 1px solid var(--st-chip); padding: 3px 10px; }
+  /* Transparent overlay that makes the whole preview clickable. Sits under the chips (.plats),
+     so each chip can link to its own store/URL without nested anchors. */
+  .z-hit { position: absolute; inset: 0; z-index: 2; }
+  .stage .plats { position: absolute; z-index: 3; left: 18px; bottom: 18px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .stage .plats .plat { font-size: 12px; font-weight: 500; color: var(--st-fg); border: 1px solid var(--st-chip); padding: 3px 10px; text-decoration: none; cursor: pointer; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
+  .stage .plats .plat:hover, .stage .plats .plat:focus-visible { background: var(--st-fg); color: var(--st-bg); border-color: var(--st-fg); }
 
   .lm-hamel { --l-w: 58%; }
   .lm-mosamimon { --l-w: 32%; }
@@ -486,7 +490,7 @@
 
       <div class="zlist">
         <article class="zrow">
-          <a class="z-img js-view" href="https://apps.apple.com/eg/app/%D8%AD%D8%A7%D9%85%D9%84-%D8%A7%D9%84%D9%85%D8%B3%D9%83-hamel-al-mesk/id6814948851" target="_blank" rel="noopener" aria-label="Hamel Al Mesk on the App Store"><div class="stage st-black"><span class="cap">Hamel Al Mesk</span><img class="lm lm-hamel" src="assets/Hamel-logo.png" alt=""><div class="plats"><span>iOS</span><span>Android</span></div></div></a>
+          <div class="z-img"><div class="stage st-black"><span class="cap">Hamel Al Mesk</span><img class="lm lm-hamel" src="assets/Hamel-logo.png" alt=""><div class="plats"><a class="plat" href="https://apps.apple.com/eg/app/%D8%AD%D8%A7%D9%85%D9%84-%D8%A7%D9%84%D9%85%D8%B3%D9%83-hamel-al-mesk/id6814948851" target="_blank" rel="noopener">iOS</a><a class="plat" href="https://play.google.com/store/apps/details?id=com.ozasoft.hamel_elmesk&amp;pcampaignid=web_share" target="_blank" rel="noopener">Android</a></div></div><a class="z-hit js-view" href="https://apps.apple.com/eg/app/%D8%AD%D8%A7%D9%85%D9%84-%D8%A7%D9%84%D9%85%D8%B3%D9%83-hamel-al-mesk/id6814948851" target="_blank" rel="noopener" aria-label="Hamel Al Mesk on the App Store"></a></div>
           <div class="z-txt">
             <div class="z-top"><b>01</b><span>Education · Mobile app</span></div>
             <h3>Hamel Al Mesk</h3>
@@ -504,7 +508,7 @@
         </article>
 
         <article class="zrow flip">
-          <a class="z-img js-view" href="https://mosamimon.com/" target="_blank" rel="noopener" aria-label="Visit mosamimon.com"><div class="stage st-red"><span class="cap">mosamimon.com</span><img class="lm lm-mosamimon" src="assets/Mosamimon-mark-white.png" alt=""><div class="plats"><span>Web</span><span>iOS</span><span>Android</span></div></div></a>
+          <div class="z-img"><div class="stage st-red"><span class="cap">mosamimon.com</span><img class="lm lm-mosamimon" src="assets/Mosamimon-mark-white.png" alt=""><div class="plats"><a class="plat" href="https://mosamimon.com/" target="_blank" rel="noopener">Web</a><a class="plat" href="https://apps.apple.com/us/app/%D9%85%D8%B5%D9%85%D9%85%D9%88%D9%86/id6756515100" target="_blank" rel="noopener">iOS</a><a class="plat" href="https://play.google.com/store/apps/details?id=com.ozasoft.mosamimon.app&amp;hl=en_US" target="_blank" rel="noopener">Android</a></div></div><a class="z-hit js-view" href="https://mosamimon.com/" target="_blank" rel="noopener" aria-label="Visit mosamimon.com"></a></div>
           <div class="z-txt">
             <div class="z-top"><b>02</b><span>Interior design · Web + mobile</span></div>
             <h3>Mosamimon</h3>
@@ -524,7 +528,7 @@
         </article>
 
         <article class="zrow">
-          <a class="z-img js-view" href="https://www.falakcargo.com/" target="_blank" rel="noopener" aria-label="Visit falakcargo.com"><div class="stage st-paper"><span class="cap">falakcargo.com</span><img class="lm lm-falak" src="assets/Falak-logo.png" alt=""><div class="plats"><span>Web</span></div></div></a>
+          <div class="z-img"><div class="stage st-paper"><span class="cap">falakcargo.com</span><img class="lm lm-falak" src="assets/Falak-logo.png" alt=""><div class="plats"><a class="plat" href="https://www.falakcargo.com/" target="_blank" rel="noopener">Web</a></div></div><a class="z-hit js-view" href="https://www.falakcargo.com/" target="_blank" rel="noopener" aria-label="Visit falakcargo.com"></a></div>
           <div class="z-txt">
             <div class="z-top"><b>03</b><span>Logistics · Website</span></div>
             <h3>Falak Cargo</h3>
@@ -541,7 +545,7 @@
         </article>
 
         <article class="zrow flip">
-          <a class="z-img js-view" href="https://rseen.net/en" target="_blank" rel="noopener" aria-label="Visit rseen.net"><div class="stage st-black"><span class="cap">rseen.net</span><img class="lm lm-rseen" src="assets/Rseen-logo.png" alt=""><div class="plats"><span>Web</span><span>iOS</span><span>Android</span></div></div></a>
+          <div class="z-img"><div class="stage st-black"><span class="cap">rseen.net</span><img class="lm lm-rseen" src="assets/Rseen-logo.png" alt=""><div class="plats"><a class="plat" href="https://rseen.net/en" target="_blank" rel="noopener">Web</a><a class="plat" href="https://apps.apple.com/gr/app/%D8%B1%D8%B5%D9%8A%D9%86-rseen/id6739260369" target="_blank" rel="noopener">iOS</a><a class="plat" href="https://play.google.com/store/apps/details?id=com.linkdevelopment.raseen&amp;hl=en_US" target="_blank" rel="noopener">Android</a></div></div><a class="z-hit js-view" href="https://rseen.net/en" target="_blank" rel="noopener" aria-label="Visit rseen.net"></a></div>
           <div class="z-txt">
             <div class="z-top"><b>04</b><span>Construction &amp; design · Web + mobile</span></div>
             <h3>Rseen</h3>
@@ -561,7 +565,7 @@
         </article>
 
         <article class="zrow">
-          <a class="z-img js-view" href="https://trends-poc.netlify.app/ar" target="_blank" rel="noopener" aria-label="Open the Trends AI chatbot prototype"><div class="stage st-red"><span class="cap">Trends AI assistant</span><img class="lm lm-trends" src="assets/image.webp" alt=""><div class="plats"><span>Web</span><span>AI chatbot</span></div></div></a>
+          <div class="z-img"><div class="stage st-red"><span class="cap">Trends AI assistant</span><img class="lm lm-trends" src="assets/image.webp" alt=""><div class="plats"><a class="plat" href="https://trends-poc.netlify.app/ar" target="_blank" rel="noopener">Web</a><a class="plat" href="https://trends-poc.netlify.app/ar" target="_blank" rel="noopener">AI chatbot</a></div></div><a class="z-hit js-view" href="https://trends-poc.netlify.app/ar" target="_blank" rel="noopener" aria-label="Open the Trends AI chatbot prototype"></a></div>
           <div class="z-txt">
             <div class="z-top"><b>05</b><span>Research &amp; advisory · AI</span></div>
             <h3>Trends AI Chatbot</h3>
