@@ -785,7 +785,7 @@
         raf = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.5 ? requestAnimationFrame(loop) : null;
       }
       document.querySelectorAll('.js-view').forEach(function (el) {
-        el.addEventListener('mouseenter', function (e) { tx = cx = e.clientX; ty = cy = e.clientY; cur.style.left = cx + 'px'; cur.style.top = cy + 'px'; cur.classList.toggle('ink', !!el.querySelector('.st-red')); cur.classList.add('on'); });
+        el.addEventListener('mouseenter', function (e) { tx = cx = e.clientX; ty = cy = e.clientY; cur.style.left = cx + 'px'; cur.style.top = cy + 'px'; cur.classList.toggle('ink', !!el.parentElement.querySelector('.st-red')); cur.classList.add('on'); });
         el.addEventListener('mouseleave', function () { cur.classList.remove('on'); });
         el.addEventListener('mousemove', function (e) { tx = e.clientX; ty = e.clientY; if (!raf) raf = requestAnimationFrame(loop); });
       });
